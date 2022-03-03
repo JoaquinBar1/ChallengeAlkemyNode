@@ -30,6 +30,16 @@ module.exports = function(sequelize, dataTypes){
         timestamps: false,
     }
     let Personajes = sequelize.define(alias, cols, config)
+    Personaje.associate = (models) => {
+        Personaje.belongsToMany(models.Pelicula, {
+            as: "peliculas",
+            through: "personaje_pelicula",
+            foreignKey: "personaje_id",
+            otherKey: "pelicula_id",
+            timestamps: false
+        })
+
+    }
 
     return Personajes;
 }
