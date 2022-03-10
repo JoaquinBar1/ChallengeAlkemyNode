@@ -7,18 +7,18 @@ module.exports = function(sequelize, dataTypes){
             autoIncremental: true,
         },
         nombre: {
-            type: dataTypes.VARCHAR(45),
+            type: dataTypes.STRING,
         },
         edad: {
             type: dataTypes.INTEGER,
-            allowNull: false,
+            
         },
         peso: {
             type: dataTypes.INTEGER,       
         },
         historia: {
-            type: dataTypes.VARCHAR(100),
-            allowNull:false,
+            type: dataTypes.STRING,
+            
         },
         imagen: {
             type: dataTypes.BLOB,
@@ -29,8 +29,9 @@ module.exports = function(sequelize, dataTypes){
         tableName: 'personajes',
         timestamps: false,
     }
-    let Personajes = sequelize.define(alias, cols, config)
-    Personaje.associate = (models) => {
+    let Personaje = sequelize.define(alias, cols, config)
+    
+    Personaje.associate = function(models){
         Personaje.belongsToMany(models.Pelicula, {
             as: "peliculas",
             through: "personaje_pelicula",
@@ -41,7 +42,7 @@ module.exports = function(sequelize, dataTypes){
 
     }
 
-    return Personajes;
+    return Personaje;
 }
 
 

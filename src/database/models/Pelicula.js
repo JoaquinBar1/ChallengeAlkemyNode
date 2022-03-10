@@ -1,5 +1,5 @@
 module.exports = (sequelize, dataTypes) => {
-    let alias = "Pelicuala";
+    let alias = "Pelicula";
     let cols = {
         id: {
             type: dataTypes.INTEGER,
@@ -7,22 +7,19 @@ module.exports = (sequelize, dataTypes) => {
             autoIncrement: true,
         },
         titulo: {
-            type: dataTypes.VARCHAR(100),
-            allowNull: false,
+            type: dataTypes.STRING,
         },
         imagen: {
-            type: dataTypes.BLOB,
+            type: dataTypes.STRING,
         },
         fecha_estreno: {
-            type: dataTypes.DATE,
-            allowNull: false,
+            type: dataTypes.DATEONLY,
         },
         rating: {
             type: dataTypes.DECIMAL(5,0),
-            allowNull: false
         },
-        genre_id: {
-            tpye: dataTypes.INTEGER
+        genero_id: {
+            type: dataTypes.INTEGER, 
         }
     }
     let config = {
@@ -32,10 +29,10 @@ module.exports = (sequelize, dataTypes) => {
 
     let Pelicula = sequelize.define(alias, cols, config)
 
-    Pelicula.associate = (models) => {
+    Pelicula.associate = function(models){
         Pelicula.belongsTo(models.Genero,{
-            as: "genre",
-            foreignKey: "genre_id"
+            as: "generos",
+            foreignKey: "genero_id"
         })
         Pelicula.belongsToMany(models.Personaje, {
             as: "personajes",
