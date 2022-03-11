@@ -7,7 +7,7 @@ const port = 3009;
 
 
 const peliculasRoutes = require('./src/routes/api/apiRoutePeliculas')
-
+const personajesRoutes = require('./src/routes/api/apiRoutePersonajes')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -15,7 +15,7 @@ app.use(methodOverride('_method'));
 
 
 app.use('/movies', peliculasRoutes);
-
+app.use('/characters', personajesRoutes);
 
 
 app.listen(port, () => {

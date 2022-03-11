@@ -1,13 +1,15 @@
 const db = require('../../database/models');
 const { Op } = require('sequelize')
-const { validationResult } = require('express-validator')
+const { validationResult } = require('express-validator');
+const personajesController = require('./apiControllerPersonajes');
 
  
 const peliculasController = {
     list: (req, res) => {
-        db.Pelicula.findAll({
-            atrributes: ['titulo', 'imagen', 'fecha_creacion']
-        })
+        db.Pelicula
+            .findAll({
+                attributes: ['titulo', 'imagen', 'fecha_creacion']
+            })
             .then((pelicula) => {
                 return res.status(200).json({
                     meta: {
@@ -21,12 +23,15 @@ const peliculasController = {
             .catch(err => res.send(err))
     },
     detail: (req, res) => {
-        db.Pelicula.findByPk(req.params.id, {include: ['personajes', 'generos']})
-            .then((pelicula) => {
-                return res.status(200).json({
-                    data: pelicula,
-                    status: 200
-                })
+        db.Pelicula
+            .findByPk(req.params.id, {
+                include: ['personajes', 'generos']
+            })
+                .then((pelicula) => {
+                    return res.status(200).json({
+                        data: pelicula,
+                        status: 200
+                    })
             })
             .catch(err => res.send(err))
     },
@@ -39,24 +44,26 @@ const peliculasController = {
             return res.status(404).json({
                 meta: {
                     status: 404,
+                    msg:"Algo salio mal"
                 },
                 errors: errores.mapped()
             })
         }
 
-        db.Pelicula.create({
-            titulo, imagen, fecha_estreno, rating, genero_id
-        })
-        .then((pelicula) => {
-            return res.status(200).json({
-                meta:{
-                    status: 200,
-                    msg: 'pelicula agregada'
-                },
-                data: pelicula
+        db.Pelicula
+            .create({
+                titulo, imagen, fecha_estreno, rating, genero_id
             })
-        })
-        .catch(err => res.send(err))
+            .then((pelicula) => {
+                return res.status(200).json({
+                    meta:{
+                        status: 200,
+                        msg: 'pelicula agregada'
+                    },
+                    data: pelicula
+                })
+            })
+            .catch(err => res.send(err))
     },
     edit: (req, res) => {
         let id = req.params.id
@@ -76,61 +83,52 @@ const peliculasController = {
         }
         const pelicula = db.Pelicula.findByPk(id)
 
-        db.Pelicula.update({
-             titulo, imagen, fecha_estreno, rating, genero_id
-        }, {
-            where: {id}
-        })
-        .then(pelicula => {
-            return res.status(200).json({
-                meta:{
-                    status: 200,
-                    msg: 'Pelicula Editada'
-                },
-                data: pelicula
+        db.Pelicula
+            .update({
+                 titulo, imagen, fecha_estreno, rating, genero_id
+            }, {
+                where: {id}
             })
-        })
-        .catch(err => res.send(err))
+            .then(pelicula => {
+                return res.status(200).json({
+                    meta:{
+                        status: 200,
+                        msg: 'Pelicula Editada'
+                    },
+                    data: pelicula
+                })
+            })
+            .catch(err => res.send(err))
     },
     delete: (req, res) => {
         db.Pelicula
             .destroy({
                 where: {id: req.params.id}
-        })
-        .then((pelicula) => {
-            return res.status(200).json({
-                data: pelicula,
-                msg: "Pelicula Eliminada",
-                status:200,
             })
-        })
+            .then((pelicula) => {
+                return res.status(200).json({
+                    data: pelicula,
+                    msg: "Pelicula Eliminada",
+                    status:200,
+                })
+            })
     }, 
+    
     // search: (req, res) => {
-    //     const { name, genre, order } = req.query;
-        
-    //     if(name) {
-    //         pelicula = db.Pelicula.findAll({
-    //             where: {
-    //                 titulo: {[Op.like]: '%' + `${name}` +'%'}
+    //     db.Pelicula
+    //         .findAll({
+    //             include: ['personajes'],
+    //             where:{
+    //                 titulo: { [Op.like]:'%'+ req.query.keyword +'%'}
     //             }
     //         })
-    //     }
-    //     if(genre){
-    //         pelicula = db.Pelicula.findAll({
-    //             where: {
-    //                 genero_id: {[Op.like]: '%' + `${genre}` + '%'}
-    //             }
-    //         }) 
-    //     }
-    //     if(order){
-    //         pelicula = db.Pelicula.findAll({
-    //             order: [
-    //                 'ASC', 'DESC'
-    //             ]
+    //         .then(pelicula => {
+    //             return res.status(200).json({
+    //                 data: pelicula,
+                      
+    //             })
     //         })
-    //     }
-    //     res.status(200).json(pelicula)
-    // }
+    // },
 
     
 }
