@@ -21,7 +21,7 @@ module.exports = function(sequelize, dataTypes){
             
         },
         imagen: {
-            type: dataTypes.BLOB,
+            type: dataTypes.STRING,
 
         }
     }

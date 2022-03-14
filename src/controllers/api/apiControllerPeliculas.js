@@ -1,14 +1,14 @@
 const db = require('../../database/models');
 const { Op } = require('sequelize')
 const { validationResult } = require('express-validator');
-const personajesController = require('./apiControllerPersonajes');
+
 
  
 const peliculasController = {
     list: (req, res) => {
         db.Pelicula
             .findAll({
-                attributes: ['titulo', 'imagen', 'fecha_creacion']
+                attributes: ['titulo', 'imagen', 'fecha_estreno']
             })
             .then((pelicula) => {
                 return res.status(200).json({
@@ -114,21 +114,21 @@ const peliculasController = {
             })
     }, 
     
-    // search: (req, res) => {
-    //     db.Pelicula
-    //         .findAll({
-    //             include: ['personajes'],
-    //             where:{
-    //                 titulo: { [Op.like]:'%'+ req.query.keyword +'%'}
-    //             }
-    //         })
-    //         .then(pelicula => {
-    //             return res.status(200).json({
-    //                 data: pelicula,
+    search: (req, res) => {
+        db.Pelicula
+            .findAll({
+                include: ['personajes'],
+                where:{
+                    titulo: { [Op.like]:'%'+ req.query.keyword +'%'}
+                }
+            })
+            .then(pelicula => {
+                return res.status(200).json({
+                    data: pelicula,
                       
-    //             })
-    //         })
-    // },
+                })
+            })
+    },
 
     
 }

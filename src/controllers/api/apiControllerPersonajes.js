@@ -35,7 +35,7 @@ const personajesController = {
             .catch(err => res.send(err))
     },
     create: (req, res) => {
-        const { nombre, edad, peso, historia, iamgen } = req.body;
+        const { nombre, edad, peso, historia, imagen } = req.body;
 
         const errores = validationResult(req);
 
@@ -50,7 +50,7 @@ const personajesController = {
         }
         db.Personaje
             .create({
-                nombre, edad, peso, historia, iamgen
+                nombre, edad, peso, historia, imagen
         })
         .then((personaje) => {
             return res.status(200).json({

@@ -5,7 +5,7 @@ const personajesController = require('../../controllers/api/apiControllerPersona
 
 router.get('/', personajesController.list);
 
-router.get('/?', personajesController.search);
+// router.get('/?', personajesController.search);
 
 router.get('/detail/:id', personajesController.detail);
 

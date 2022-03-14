@@ -13,7 +13,7 @@ router.put('/edit/:id', peliculasController.edit)
 
 router.delete('/delete/:id', peliculasController.delete);
 
-//router.get('/:name?/:genre?/:order?', peliculasController.search);
+router.get('/:titulo?/:genre?/:order?', peliculasController.search);
 
 
 module.exports = router;
