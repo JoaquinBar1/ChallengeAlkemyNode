@@ -1,12 +1,12 @@
 const express = require('express');
-const authController = require('../../controllers/api/apiControllerAuth');
 const router = express.Router();
 
-const authTokenController = require('../../controllers/api/apiControllerAuth')
+const authController = require('../../controllers/api/apiControllerAuth');
+const token = require('../../../middleware/jwt')
 
 
 router.get('/list', authController.list);
-router.post('/login', authTokenController.login)
-router.post('/register', authTokenController.register);
+router.post('/login', token, authController.login)
+router.post('/register', authController.register);
 
 module.exports = router;

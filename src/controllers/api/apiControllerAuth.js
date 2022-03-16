@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
-const jw = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('../../database/models');
-const { token } = require('morgan');
+
 
 
 const authController = {
